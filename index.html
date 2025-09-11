@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fłora Accessories</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .background {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    .background div {
+      background-size: cover;
+      background-position: center;
+      transition: transform 5s ease;
+    }
+
+    .background div:hover {
+      transform: scale(1.1);
+    }
+
+    .background div:nth-child(1) { background-image: url('https://scontent.fcai20-6.fna.fbcdn.net/v/t39.30808-6/545177011_794571036273626_177279116063051871_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGVyfDKOtiH9YiOgj4lNhQEMoWsQjVuF3cyhaxCNW4XdxhUbaACSy339QFETo0ET21JPGxFanU4BwArcNcElipp&_nc_ohc=0TjvFYVhc_wQ7kNvwH1OmHc&_nc_oc=Adk28A8F9-LHcJGANEtH4Qlp9d5OMVDGw182U1NFdaaMfIOJIq5nP2FGdwXNQp1M798&_nc_zt=23&_nc_ht=scontent.fcai20-6.fna&_nc_gid=QpSjHCn5HdFqjAlgCjVXUA&oh=00_AfY3A-LGE_LufzzTrmkgYNIy9S4A7yMbdPXJUWUwoS3J1g&oe=68C8F805'); }
+    .background div:nth-child(2) { background-image: url('https://scontent.fcai20-5.fna.fbcdn.net/v/t39.30808-6/545057317_794043729659690_15891749084792320_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeFvZ5c0V9WAEU2mQ6m2b-ZBTZCBI19MbJxNkIEjX0xsnIE7EH4SppQurnpRE-fY3NvUEWxJTQB0mUlmoWirowIn&_nc_ohc=HJ-8vFKL4fcQ7kNvwE47GIh&_nc_oc=Adkn4K_PG1p7rHS8UfMT5lgCTunFUhJaCLwZArSPSnOB9OBwzZwqy4bcFrF7_BsuRvs&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=YlEO14AwtmsibYTygwAg-Q&oh=00_AfblU1QSiRRGIwt0xqC-TttKe7I9Cgq9S6xRtM-Cy_FhiQ&oe=68C8F835'); }
+    .background div:nth-child(3) { background-image: url('https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg'); }
+    .background div:nth-child(4) { background-image: url('https://cdn.shopify.com/s/files/1/0553/8142/6241/files/SS24_Accessorize_Sparse_10_118_480x480.jpg?v=1720772886'); }
+    .background div:nth-child(5) { background-image: url('https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/544848347_794044329659630_592839135832987095_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeHGy4oGv8n1YtGAGEro8B4Ncu8ZRw1dQ4Fy7xlHDV1DgUFftzeJiuQuzY17Chsr6stq_5QZHWg9ap9WlV-rPi5m&_nc_ohc=FjTx8R4j0eYQ7kNvwHJA_JP&_nc_oc=AdlDuQiqwASSfw9Tt1bx0hDVMOfnH9qXLeMi1nSrz-U4Za1tunGHkJtIKjNqKQ7icqk&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=vLgYfQ-FaBva6J4cenkvcQ&oh=00_AfatcFNG-zPPqw9kFQ-WwuI2tKGmVFIPlUqSTeOxBWRFDg&oe=68C92185'); }
+    .background div:nth-child(6) { background-image: url('https://www.sigwardjewelry.com/cdn/shop/files/IMG_8857_9202e083-516b-43a6-b381-231261b11e9d.jpg?v=1699636139&width=3840'); }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 92% ;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+
+      padding: 30px;
+      border-radius: 16px;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .container h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      animation: fadeIn 2s ease;
+    }
+
+    .container p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      animation: fadeIn 2.5s ease;
+    }
+
+    .btn {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s;
+      width: 220px;
+      animation: fadeInUp 3s ease;
+    }
+
+    .btn:hover { transform: scale(1.05); }
+
+    .btn-whatsapp { background: #25D366; color: #fff; }
+    .btn-facebook { background: #3b5998; color: #fff; }
+    .btn-group { background: #4267B2; color: #fff; }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.8em;
+      opacity: 0.8;
+      animation: fadeIn 3.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div></div><div></div><div></div>
+    <div></div><div></div><div></div>
+  </div>
+
+  <div class="overlay">
+    <div class="container">
+      <h1>Fłora</h1>
+      <p>Accessories crafted with elegance for your everyday style.</p>
+
+      <a class="btn btn-whatsapp" href="https://wa.me/201234567890" target="_blank">💬 Chat on WhatsApp</a>
+      <a class="btn btn-facebook" href="https://facebook.com/yourpage" target="_blank">🔗 Facebook Page</a>
+      <a class="btn btn-group" href="https://facebook.com/groups/yourgroup" target="_blank">👥 Facebook Group</a>
+
+      <footer>© 2025 Fłora — all rights reserved</footer>
+    </div>
+  </div>
+</body>
+</html>
+
