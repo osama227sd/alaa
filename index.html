@@ -1,232 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>E-Commerce Project Overview</title>
-  <style>
-    /* Reset */
-    * {margin:0; padding:0; box-sizing:border-box;}
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f8;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(135deg,#0ea5e9,#2563eb);
-      color: #fff;
-      padding: 50px 20px;
-      text-align: center;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-    }
-
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    section {
-      padding: 50px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    h2 {
-      color: #0f172a;
-      margin-bottom: 20px;
-      border-left: 5px solid #0ea5e9;
-      padding-left: 10px;
-    }
-
-    ul {
-      margin-left: 20px;
-      margin-bottom: 20px;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .flow {
-      font-weight: bold;
-      background: #e2e8f0;
-      padding: 10px;
-      border-radius: 6px;
-      display: inline-block;
-      margin-bottom: 20px;
-    }
-
-    /* Backend Architecture Diagram */
-    .backend-arch {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .module {
-      background: #0ea5e9;
-      color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 180px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .connector {
-      height: 2px;
-      background: #0f172a;
-      margin: 10px 0;
-    }
-
-    footer {
-      background: #0f172a;
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      background: #38bdf8;
-      color: #000;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background: #0ea5e9;
-    }
-
-    /* Responsive */
-    @media(max-width:600px){
-      header h1 {font-size:2rem;}
-      .module {width:140px;}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Project Overview – Full Reference</title>
+<style>
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f6f8; color:#1f2937; line-height:1.6;}
+  header {background:linear-gradient(135deg,#0ea5e9,#2563eb); color:#fff; padding:50px 20px; text-align:center; clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);}
+  header h1 {font-size:3rem; margin-bottom:10px;}
+  header p {font-size:1.2rem; opacity:0.9;}
+  section {padding:40px 20px; max-width:1100px; margin:auto;}
+  h2 {color:#0f172a; margin-bottom:20px; border-left:5px solid #0ea5e9; padding-left:10px;}
+  ul {margin-left:20px; margin-bottom:20px;}
+  .features {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-bottom:30px;}
+  .card {background:#fff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:center; transition: transform 0.2s;}
+  .card:hover {transform:translateY(-5px);}
+  .flow {font-weight:bold; background:#e2e8f0; padding:10px; border-radius:6px; display:inline-block; margin-bottom:20px;}
+  .module {background:#0ea5e9; color:#fff; padding:20px; border-radius:10px; width:180px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+  .backend-arch {display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:30px;}
+  footer {background:#0f172a; color:#fff; text-align:center; padding:40px 20px;}
+  button {margin-top:15px; padding:12px 25px; border:none; border-radius:8px; background:#38bdf8; color:#000; cursor:pointer; font-weight:bold; transition: background 0.2s;}
+  button:hover {background:#0ea5e9;}
+  @media(max-width:600px){header h1{font-size:2rem;} .module{width:140px;}}
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>E-Commerce Platform</h1>
-    <p>Project Overview – Backend Architecture & Workflow</p>
-  </header>
+<header>
+  <h1>Team Project Overview</h1>
+  <p>Full Reference – Frontend, Backend & DevOps</p>
+</header>
 
-  <section>
-    <h2>📌 Project Goal</h2>
-    <p>
-      Build a scalable e-commerce backend system that supports multiple modules, secure APIs, and is ready for frontend integration and deployment.
-    </p>
-  </section>
+<section>
+  <h2>📌 Project Goal</h2>
+  <p>Build a scalable e-commerce platform that covers frontend, backend, and DevOps workflows, ensuring secure APIs, smooth UI, and reliable deployment.</p>
+</section>
 
-  <section>
-    <h2>🧩 Project Modules</h2>
-    <ul>
-      <li>User Authentication & Authorization</li>
-      <li>Product & Category Management</li>
-      <li>Cart & Order System</li>
-      <li>Payment Logic</li>
-      <li>Admin Dashboard (Backend)</li>
-      <li>Coupons, Wishlist, Reviews & Analytics</li>
-    </ul>
-  </section>
+<section>
+  <h2>🧩 Frontend Modules</h2>
+  <ul>
+    <li>Authentication Screens</li>
+    <li>Layout & Design System</li>
+    <li>Home Page</li>
+    <li>Product Listing Page</li>
+    <li>Product Details Page</li>
+    <li>Cart UI</li>
+    <li>Checkout Flow</li>
+    <li>User Profile Pages</li>
+    <li>Order History Pages</li>
+    <li>Admin Dashboard UI</li>
+    <li>Forms Validation</li>
+    <li>Global State Management</li>
+    <li>API Error Handling</li>
+    <li>Loading & Skeletons</li>
+    <li>Responsive Design</li>
+    <li>Performance Optimization</li>
+  </ul>
 
-  <section>
-    <h2>✨ Key Features</h2>
-    <div class="features">
-      <div class="card">Secure Authentication (JWT)</div>
-      <div class="card">Clean API Architecture</div>
-      <div class="card">Scalable Database Design</div>
-      <div class="card">Role-Based Access</div>
-      <div class="card">Reporting & Analytics</div>
-      <div class="card">Error Handling & Logging</div>
-      <div class="card">Unit Testing & Validation</div>
-    </div>
-  </section>
+  <h2>✨ Frontend Key Features</h2>
+  <div class="features">
+    <div class="card">Secure Authentication</div>
+    <div class="card">Reusable Components</div>
+    <div class="card">Responsive Layout</div>
+    <div class="card">API Integration</div>
+    <div class="card">Error Handling</div>
+    <div class="card">Loading & Skeletons</div>
+    <div class="card">Performance Optimization</div>
+  </div>
+</section>
 
-  <section>
-    <h2>🏗️ Backend Architecture</h2>
-    <p>Visual overview of main backend modules:</p>
-    <div class="backend-arch">
-      <div class="module">Database</div>
-      <div class="module">Repositories</div>
-      <div class="module">Services</div>
-      <div class="module">Controllers / API</div>
-      <div class="module">Middleware / Security</div>
-    </div>
-    <p style="text-align:center; margin-top:15px;">Modules are connected in a layered architecture: Database → Repositories → Services → Controllers → Middleware</p>
-  </section>
+<section>
+  <h2>🧩 Backend Modules</h2>
+  <ul>
+    <li>User Authentication & Authorization</li>
+    <li>Product & Category Management</li>
+    <li>Cart & Order System</li>
+    <li>Payment Logic</li>
+    <li>Admin Dashboard (Backend)</li>
+    <li>Coupons, Wishlist, Reviews & Analytics</li>
+  </ul>
 
-  <section>
-    <h2>⏱️ Timeline</h2>
-    <p>
-      Estimated Duration: <strong>4 – 6 Weeks</strong>
-    </p>
-    <ul>
-      <li>Week 1: Core Backend & Authentication</li>
-      <li>Week 2: Products, Cart & Orders</li>
-      <li>Week 3: Payments & Admin</li>
-      <li>Week 4: Testing & Improvements</li>
-    </ul>
-  </section>
+  <h2>✨ Backend Key Features</h2>
+  <div class="features">
+    <div class="card">Secure Authentication (JWT)</div>
+    <div class="card">Clean API Architecture</div>
+    <div class="card">Scalable Database Design</div>
+    <div class="card">Role-Based Access</div>
+    <div class="card">Reporting & Analytics</div>
+    <div class="card">Error Handling & Logging</div>
+    <div class="card">Unit Testing & Validation</div>
+  </div>
 
-  <section>
-    <h2>🛠️ Team Workflow</h2>
-    <p>
-      We will work using agile sprints and task boards (Trello). Each task moves through:
-    </p>
-    <p class="flow">
-      Backlog → To Do → Doing → Review → Testing → Done
-    </p>
-  </section>
+  <h2>🏗️ Backend Architecture</h2>
+  <p>Visual overview of main backend modules:</p>
+  <div class="backend-arch">
+    <div class="module">Database</div>
+    <div class="module">Repositories</div>
+    <div class="module">Services</div>
+    <div class="module">Controllers / API</div>
+    <div class="module">Middleware / Security</div>
+  </div>
+  <p style="text-align:center; margin-top:15px;">Modules are connected in a layered architecture: Database → Repositories → Services → Controllers → Middleware</p>
+</section>
 
-  <section>
-    <h2>👥 Team Responsibilities</h2>
-    <ul>
-      <li><strong>Backend:</strong> APIs, Database, Security</li>
-      <li><strong>Frontend:</strong> UI, User Experience</li>
-      <li><strong>DevOps:</strong> Deployment & Monitoring</li>
-    </ul>
-  </section>
+<section>
+  <h2>🧩 DevOps Modules</h2>
+  <ul>
+    <li>Environment Setup</li>
+    <li>Docker Configuration</li>
+    <li>CI/CD Pipeline</li>
+    <li>Secrets Management</li>
+    <li>Database Deployment</li>
+    <li>Reverse Proxy Setup</li>
+    <li>SSL & HTTPS</li>
+    <li>Monitoring & Logs</li>
+    <li>Backup Strategy</li>
+    <li>Scaling Strategy</li>
+    <li>Performance Optimization</li>
+    <li>Security Hardening</li>
+  </ul>
+</section>
 
-  <footer>
-    <p>Prepared for the team – Let’s build something great 🚀</p>
-    <button onclick="showMessage()">Ready to Start</button>
-  </footer>
+<section>
+  <h2>⏱️ Timeline</h2>
+  <p>Estimated Duration: <strong>4 – 6 Weeks</strong></p>
+  <ul>
+    <li>Week 1: Core Backend & Authentication</li>
+    <li>Week 2: Products, Cart & Orders</li>
+    <li>Week 3: Payments, Admin & Frontend</li>
+    <li>Week 4: Testing, Improvements & Deployment</li>
+  </ul>
+</section>
 
-  <script>
-    function showMessage() {
-      alert("🚀 Great! The project is ready to start. Let's move to Sprint 1!");
-    }
-  </script>
+<section>
+  <h2>🛠️ Team Workflow</h2>
+  <p>We will work using agile sprints and task boards (Trello). Each task moves through:</p>
+  <p class="flow">Backlog → To Do → Doing → Code Review → Testing → Done</p>
+</section>
+
+<section>
+  <h2>👥 Team Responsibilities</h2>
+  <ul>
+    <li><strong>Backend:</strong> APIs, Database, Security</li>
+    <li><strong>Frontend:</strong> UI, User Experience</li>
+    <li><strong>DevOps:</strong> Deployment & Monitoring</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Prepared for the team – Let’s build something great 🚀</p>
+  <button onclick="alert('Team is ready! Let’s start the Sprints 🚀')">Start Project</button>
+</footer>
+
 </body>
 </html>
