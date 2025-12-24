@@ -1,157 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team Project Overview – Full Reference</title>
-<style>
-  * {margin:0; padding:0; box-sizing:border-box;}
-  body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f6f8; color:#1f2937; line-height:1.6;}
-  header {background:linear-gradient(135deg,#0ea5e9,#2563eb); color:#fff; padding:50px 20px; text-align:center; clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);}
-  header h1 {font-size:3rem; margin-bottom:10px;}
-  header p {font-size:1.2rem; opacity:0.9;}
-  section {padding:40px 20px; max-width:1100px; margin:auto;}
-  h2 {color:#0f172a; margin-bottom:20px; border-left:5px solid #0ea5e9; padding-left:10px;}
-  ul {margin-left:20px; margin-bottom:20px;}
-  .features {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-bottom:30px;}
-  .card {background:#fff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:center; transition: transform 0.2s;}
-  .card:hover {transform:translateY(-5px);}
-  .flow {font-weight:bold; background:#e2e8f0; padding:10px; border-radius:6px; display:inline-block; margin-bottom:20px;}
-  .module {background:#0ea5e9; color:#fff; padding:20px; border-radius:10px; width:180px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-  .backend-arch {display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:30px;}
-  footer {background:#0f172a; color:#fff; text-align:center; padding:40px 20px;}
-  button {margin-top:15px; padding:12px 25px; border:none; border-radius:8px; background:#38bdf8; color:#000; cursor:pointer; font-weight:bold; transition: background 0.2s;}
-  button:hover {background:#0ea5e9;}
-  @media(max-width:600px){header h1{font-size:2rem;} .module{width:140px;}}
-</style>
+  <meta charset="UTF-8" />
+  <title>E-Commerce Scrum Boards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent2: #22c55e;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { margin:0; background:var(--bg); color:var(--text); }
+    /* HERO */
+    .hero { padding: 80px 20px; text-align:center; background:linear-gradient(145deg,#020617,#020617); }
+    .hero h1 { font-size:42px; margin-bottom:10px; }
+    .hero p { color:var(--muted); font-size:18px; }
+    /* BOARD SELECT */
+    .boards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:40px 20px; max-width:1200px; margin:auto; }
+    .board-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; cursor:pointer; transition:0.3s; text-align:center; }
+    .board-card:hover { transform:translateY(-6px); border-color:var(--accent); }
+    .board-card h3 { margin:0 0 10px; }
+    .board-card span { color:var(--muted); font-size:14px; }
+    /* SPRINT SECTION */
+    .section { max-width:1200px; margin:auto; padding:20px; }
+    .sprint { background:var(--card); border:1px solid var(--border); border-radius:16px; margin-bottom:20px; overflow:hidden; }
+    .sprint-header { padding:20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+    .sprint-header h4 { margin:0; }
+    .sprint-content { padding:20px; border-top:1px solid var(--border); }
+    .goal { background:#020617; border-left:4px solid var(--accent); padding:14px; margin-bottom:20px; border-radius:8px; font-size:14px; }
+    .tasks { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+    .task { background:#020617; border:1px solid var(--border); border-radius:12px; padding:16px; }
+    .task h5 { margin-top:0; color:var(--accent); font-size:15px; }
+    .task ul { padding-left:20px; margin:0; }
+    .task li { font-size:14px; margin-bottom:6px; }
+    footer { text-align:center; padding:30px; color:var(--muted); font-size:13px; }
+    /* Expand/Collapse cursor */
+    .sprint-header { cursor:pointer; }
+  </style>
 </head>
 <body>
 
-<header>
-  <h1>Team Project Overview</h1>
-  <p>Full Reference – Frontend, Backend & DevOps</p>
-</header>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>E-Commerce Scrum Workspace</h1>
+    <p>Backend • Frontend • DevOps — Sprint by Sprint</p>
+  </section>
 
-<section>
-  <h2>📌 Project Goal</h2>
-  <p>Build a scalable e-commerce platform that covers frontend, backend, and DevOps workflows, ensuring secure APIs, smooth UI, and reliable deployment.</p>
-</section>
+  <!-- BOARD SELECT -->
+  <section class="boards">
+    <div class="board-card" onclick="showBoard('backend')">
+      <h3>🧩 Backend Board</h3>
+      <span>Auth • Orders • Payments • Admin</span>
+    </div>
+    <div class="board-card" onclick="showBoard('frontend')">
+      <h3>🎨 Frontend Board</h3>
+      <span>UI • UX • Cart • Checkout</span>
+    </div>
+    <div class="board-card" onclick="showBoard('devops')">
+      <h3>⚙️ DevOps Board</h3>
+      <span>CI/CD • Docker • Kubernetes</span>
+    </div>
+  </section>
 
-<section>
-  <h2>🧩 Frontend Modules</h2>
-  <ul>
-    <li>Authentication Screens</li>
-    <li>Layout & Design System</li>
-    <li>Home Page</li>
-    <li>Product Listing Page</li>
-    <li>Product Details Page</li>
-    <li>Cart UI</li>
-    <li>Checkout Flow</li>
-    <li>User Profile Pages</li>
-    <li>Order History Pages</li>
-    <li>Admin Dashboard UI</li>
-    <li>Forms Validation</li>
-    <li>Global State Management</li>
-    <li>API Error Handling</li>
-    <li>Loading & Skeletons</li>
-    <li>Responsive Design</li>
-    <li>Performance Optimization</li>
-  </ul>
+  <!-- BOARDS -->
+  <div id="boards-container">
 
-  <h2>✨ Frontend Key Features</h2>
-  <div class="features">
-    <div class="card">Secure Authentication</div>
-    <div class="card">Reusable Components</div>
-    <div class="card">Responsive Layout</div>
-    <div class="card">API Integration</div>
-    <div class="card">Error Handling</div>
-    <div class="card">Loading & Skeletons</div>
-    <div class="card">Performance Optimization</div>
+    <!-- BACKEND -->
+    <section class="section" id="backend" style="display:none;">
+      <h2>🧩 Backend Board</h2>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 1 – Secure Authentication & Core Entities</h4>
+          <span>Backend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Build a secure authentication system and create core database entities.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>🔐 Authentication</h5>
+              <ul>
+                <li>User registration & login</li>
+                <li>JWT authentication</li>
+                <li>Role-based access</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>👤 User Management</h5>
+              <ul>
+                <li>User entity</li>
+                <li>Hashed passwords</li>
+                <li>User profile API</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🧩 Core Entities</h5>
+              <ul>
+                <li>Product entity</li>
+                <li>Category entity</li>
+                <li>Relations mapping</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🛡️ Security & Testing</h5>
+              <ul>
+                <li>Input validation</li>
+                <li>Error handling</li>
+                <li>Auth flow tests</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more backend sprints here -->
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 2 – Inventory & Stock</h4>
+          <span>Backend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Manage product stock quantities and automate stock updates.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>📦 Inventory & Stock</h5>
+              <ul>
+                <li>Create & update product stock</li>
+                <li>Decrease stock after orders</li>
+                <li>Low-stock alerts</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🛒 Cart System</h5>
+              <ul>
+                <li>Add/remove products to cart</li>
+                <li>Update quantities & totals</li>
+                <li>Persist cart per user</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 3 – Orders & Payments</h4>
+          <span>Backend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Enable order creation and handle payment logic.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>📑 Order Management</h5>
+              <ul>
+                <li>Create orders from cart</li>
+                <li>Manage order statuses</li>
+                <li>Link orders to users/products</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>💳 Payment Handling</h5>
+              <ul>
+                <li>Calculate totals & discounts</li>
+                <li>Handle payment success/failure</li>
+                <li>Update order status</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FRONTEND -->
+    <section class="section" id="frontend" style="display:none;">
+      <h2>🎨 Frontend Board</h2>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 1 – Project Setup & Auth UI</h4>
+          <span>Frontend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Setup project structure & authentication UI.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>🧱 Project Setup</h5>
+              <ul>
+                <li>Folder structure & routing</li>
+                <li>Global styles & environment</li>
+                <li>API base service</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🔐 Authentication Pages</h5>
+              <ul>
+                <li>Login page UI</li>
+                <li>Register page UI</li>
+                <li>Form validation & error messages</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 2 – Product Browsing & Categories</h4>
+          <span>Frontend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Allow users to browse products and categories smoothly.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>📦 Product Listing Page</h5>
+              <ul>
+                <li>Product card component</li>
+                <li>Grid layout & pagination</li>
+                <li>Loading skeleton & empty state</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🔍 Product Details Page</h5>
+              <ul>
+                <li>Image gallery & description</li>
+                <li>Stock availability</li>
+                <li>Add to cart button</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🗂️ Category Navigation</h5>
+              <ul>
+                <li>Categories menu</li>
+                <li>Filter by category</li>
+                <li>Active state UI</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 3 – Cart & Checkout</h4>
+          <span>Frontend</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Enable users to manage cart and place orders.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>🛒 Cart Page</h5>
+              <ul>
+                <li>Cart items list</li>
+                <li>Update quantity</li>
+                <li>Remove item</li>
+                <li>Subtotal calculation</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>💳 Checkout Page</h5>
+              <ul>
+                <li>Address form</li>
+                <li>Order summary</li>
+                <li>Submit order button</li>
+                <li>Validation messages</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🎟️ Coupon UI</h5>
+              <ul>
+                <li>Coupon input field</li>
+                <li>Apply coupon button</li>
+                <li>Discount feedback</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVOPS -->
+    <section class="section" id="devops" style="display:none;">
+      <h2>⚙️ DevOps Board</h2>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 1 – Infrastructure & Environment Setup</h4>
+          <span>DevOps</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Prepare base infrastructure and environments for development/testing.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>🏗️ Cloud Infrastructure</h5>
+              <ul>
+                <li>Choose cloud provider</li>
+                <li>Create project/account</li>
+                <li>Networking & security groups</li>
+                <li>Storage setup</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🌱 Environment Configuration</h5>
+              <ul>
+                <li>Development environment</li>
+                <li>Staging environment</li>
+                <li>Production environment</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🔐 Secrets Management</h5>
+              <ul>
+                <li>Environment variables strategy</li>
+                <li>Secrets storage solution</li>
+                <li>Access control policies</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 2 – CI/CD Pipeline</h4>
+          <span>DevOps</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Automate build, test & deployment processes.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>🧪 Continuous Integration</h5>
+              <ul>
+                <li>Pipeline config file</li>
+                <li>Install dependencies</li>
+                <li>Run unit tests</li>
+                <li>Lint & code quality</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🚀 Continuous Deployment</h5>
+              <ul>
+                <li>Build artifacts</li>
+                <li>Deploy to staging/production</li>
+                <li>Rollback strategy</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🐳 Containerization</h5>
+              <ul>
+                <li>Dockerfile creation</li>
+                <li>Image optimization & versioning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <h4>🚀 Sprint 3 – Deployment & Scaling</h4>
+          <span>DevOps</span>
+        </div>
+        <div class="sprint-content">
+          <div class="goal">🎯 <b>Sprint Goal:</b> Deploy app reliably and enable scaling.</div>
+          <div class="tasks">
+            <div class="task">
+              <h5>☸️ Container Orchestration</h5>
+              <ul>
+                <li>Kubernetes cluster setup</li>
+                <li>Deployment manifests</li>
+                <li>Service & ingress setup</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>📈 Auto Scaling</h5>
+              <ul>
+                <li>Horizontal scaling</li>
+                <li>Resource limits</li>
+                <li>Load balancing</li>
+              </ul>
+            </div>
+            <div class="task">
+              <h5>🧱 Infrastructure as Code (IaC)</h5>
+              <ul>
+                <li>IaC tool selection</li>
+                <li>Infrastructure definitions</li>
+                <li>State management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
   </div>
-</section>
 
-<section>
-  <h2>🧩 Backend Modules</h2>
-  <ul>
-    <li>User Authentication & Authorization</li>
-    <li>Product & Category Management</li>
-    <li>Cart & Order System</li>
-    <li>Payment Logic</li>
-    <li>Admin Dashboard (Backend)</li>
-    <li>Coupons, Wishlist, Reviews & Analytics</li>
-  </ul>
+  <footer>© 2025 E-Commerce Scrum Boards — Designed for Developers</footer>
 
-  <h2>✨ Backend Key Features</h2>
-  <div class="features">
-    <div class="card">Secure Authentication (JWT)</div>
-    <div class="card">Clean API Architecture</div>
-    <div class="card">Scalable Database Design</div>
-    <div class="card">Role-Based Access</div>
-    <div class="card">Reporting & Analytics</div>
-    <div class="card">Error Handling & Logging</div>
-    <div class="card">Unit Testing & Validation</div>
-  </div>
+  <script>
+    function showBoard(boardId) {
+      document.getElementById('backend').style.display = 'none';
+      document.getElementById('frontend').style.display = 'none';
+      document.getElementById('devops').style.display = 'none';
+      document.getElementById(boardId).style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-  <h2>🏗️ Backend Architecture</h2>
-  <p>Visual overview of main backend modules:</p>
-  <div class="backend-arch">
-    <div class="module">Database</div>
-    <div class="module">Repositories</div>
-    <div class="module">Services</div>
-    <div class="module">Controllers / API</div>
-    <div class="module">Middleware / Security</div>
-  </div>
-  <p style="text-align:center; margin-top:15px;">Modules are connected in a layered architecture: Database → Repositories → Services → Controllers → Middleware</p>
-</section>
-
-<section>
-  <h2>🧩 DevOps Modules</h2>
-  <ul>
-    <li>Environment Setup</li>
-    <li>Docker Configuration</li>
-    <li>CI/CD Pipeline</li>
-    <li>Secrets Management</li>
-    <li>Database Deployment</li>
-    <li>Reverse Proxy Setup</li>
-    <li>SSL & HTTPS</li>
-    <li>Monitoring & Logs</li>
-    <li>Backup Strategy</li>
-    <li>Scaling Strategy</li>
-    <li>Performance Optimization</li>
-    <li>Security Hardening</li>
-  </ul>
-</section>
-
-<section>
-  <h2>⏱️ Timeline</h2>
-  <p>Estimated Duration: <strong>4 – 6 Weeks</strong></p>
-  <ul>
-    <li>Week 1: Core Backend & Authentication</li>
-    <li>Week 2: Products, Cart & Orders</li>
-    <li>Week 3: Payments, Admin & Frontend</li>
-    <li>Week 4: Testing, Improvements & Deployment</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🛠️ Team Workflow</h2>
-  <p>We will work using agile sprints and task boards (Trello). Each task moves through:</p>
-  <p class="flow">Backlog → To Do → Doing → Code Review → Testing → Done</p>
-</section>
-
-<section>
-  <h2>👥 Team Responsibilities</h2>
-  <ul>
-    <li><strong>Backend:</strong> APIs, Database, Security</li>
-    <li><strong>Frontend:</strong> UI, User Experience</li>
-    <li><strong>DevOps:</strong> Deployment & Monitoring</li>
-  </ul>
-</section>
-
-<footer>
-  <p>Prepared for the team – Let’s build something great 🚀</p>
-  <button onclick="alert('Team is ready! Let’s start the Sprints 🚀')">Start Project</button>
-</footer>
+    // Optional: Expand/collapse sprints
+    const headers = document.querySelectorAll('.sprint-header');
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+      });
+      header.nextElementSibling.style.display = 'block'; // initially open
+    });
+  </script>
 
 </body>
 </html>
