@@ -1,428 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>E-Commerce Scrum Boards</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --accent: #38bdf8;
-      --accent2: #22c55e;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --border: #1f2937;
-    }
-    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { margin:0; background:var(--bg); color:var(--text); }
-    /* HERO */
-    .hero { padding: 80px 20px; text-align:center; background:linear-gradient(145deg,#020617,#020617); }
-    .hero h1 { font-size:42px; margin-bottom:10px; }
-    .hero p { color:var(--muted); font-size:18px; }
-    /* BOARD SELECT */
-    .boards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:40px 20px; max-width:1200px; margin:auto; }
-    .board-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; cursor:pointer; transition:0.3s; text-align:center; }
-    .board-card:hover { transform:translateY(-6px); border-color:var(--accent); }
-    .board-card h3 { margin:0 0 10px; }
-    .board-card span { color:var(--muted); font-size:14px; }
-    /* SPRINT SECTION */
-    .section { max-width:1200px; margin:auto; padding:20px; }
-    .sprint { background:var(--card); border:1px solid var(--border); border-radius:16px; margin-bottom:20px; overflow:hidden; }
-    .sprint-header { padding:20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
-    .sprint-header h4 { margin:0; }
-    .sprint-content { padding:20px; border-top:1px solid var(--border); }
-    .goal { background:#020617; border-left:4px solid var(--accent); padding:14px; margin-bottom:20px; border-radius:8px; font-size:14px; }
-    .tasks { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
-    .task { background:#020617; border:1px solid var(--border); border-radius:12px; padding:16px; }
-    .task h5 { margin-top:0; color:var(--accent); font-size:15px; }
-    .task ul { padding-left:20px; margin:0; }
-    .task li { font-size:14px; margin-bottom:6px; }
-    footer { text-align:center; padding:30px; color:var(--muted); font-size:13px; }
-    /* Expand/Collapse cursor */
-    .sprint-header { cursor:pointer; }
-  </style>
+<meta charset="UTF-8">
+<title>Chapter 4 – Software Design</title>
+<style>
+:root{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#1e293b;
+  --main:#2563eb;
+  --accent:#22c55e;
+}
+body.dark{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#e5e7eb;
+}
+*{box-sizing:border-box;scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Segoe UI',Tahoma,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+#progress{
+  position:fixed; top:0; left:0;
+  height:5px; width:0%;
+  background:linear-gradient(to right,var(--main),var(--accent));
+  z-index:1000;
+}
+.toggle{
+  position:fixed; right:20px; top:15px;
+  z-index:1100;
+  background:var(--card);
+  border:none;
+  padding:10px 14px;
+  border-radius:25px;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+  font-size:18px;
+}
+header{
+  background:linear-gradient(135deg,#1e40af,#2563eb);
+  color:white;
+  padding:60px 20px;
+  text-align:center;
+}
+header h1{margin-bottom:5px;}
+header p{margin:4px 0;}
+nav{
+  background:var(--card);
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:12px; padding:12px;
+  position:sticky; top:0; z-index:999;
+}
+nav a{
+  text-decoration:none; color:var(--text); font-weight:600;
+}
+section{
+  max-width:1050px; margin:40px auto;
+  background:var(--card); padding:30px;
+  border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.15);
+  opacity:0; transform:translateY(40px); transition:.8s;
+}
+section.show{opacity:1; transform:none;}
+h2{color:var(--main);}
+.badge{
+  background:var(--accent); color:white;
+  padding:6px 14px; border-radius:20px;
+  font-size:14px; display:inline-block;
+  margin-bottom:15px;
+}
+.card{
+  background:#f1f5f9; padding:20px;
+  border-left:6px solid var(--main); border-radius:10px;
+  margin:20px 0;
+}
+.diagram{
+  background:rgba(0,0,0,.05); padding:20px;
+  border-radius:14px; margin-top:25px; overflow:auto;
+}
+svg text{fill:var(--text); font-size:14px; font-weight:600;}
+footer{
+  background:#020617; color:white;
+  text-align:center; padding:30px;
+}
+</style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>E-Commerce Scrum Workspace</h1>
-    <p>Backend • Frontend • DevOps — Sprint by Sprint</p>
-  </section>
+<div id="progress"></div>
+<button class="toggle" id="modeBtn">🌙</button>
 
-  <!-- BOARD SELECT -->
-  <section class="boards">
-    <div class="board-card" onclick="showBoard('backend')">
-      <h3>🧩 Backend Board</h3>
-      <span>Auth • Orders • Payments • Admin</span>
-    </div>
-    <div class="board-card" onclick="showBoard('frontend')">
-      <h3>🎨 Frontend Board</h3>
-      <span>UI • UX • Cart • Checkout</span>
-    </div>
-    <div class="board-card" onclick="showBoard('devops')">
-      <h3>⚙️ DevOps Board</h3>
-      <span>CI/CD • Docker • Kubernetes</span>
-    </div>
-  </section>
+<header>
+<h1>Chapter 4 – Software Design</h1>
+<p>Software Engineering</p>
+<p><strong>Prepared by:</strong> Osama Ebrahim Ahmed Salam</p>
+</header>
 
-  <!-- BOARDS -->
-  <div id="boards-container">
+<nav>
+<a href="#intro">Introduction</a>
+<a href="#design">Design</a>
+<a href="#methods">Methods</a>
+<a href="#principles">Principles</a>
+<a href="#architecture">Architecture</a>
+<a href="#modular">Modularity</a>
+<a href="#coupling">Coupling</a>
+<a href="#detailed">Detailed Design</a>
+<a href="#pseudo">Pseudo-Code</a>
+</nav>
 
-    <!-- BACKEND -->
-    <section class="section" id="backend" style="display:none;">
-      <h2>🧩 Backend Board</h2>
+<section id="intro">
+<span class="badge">Introduction</span>
+<h2>Software Design</h2>
+<p>The goal of the design phase is to transform the requirements specified in the SRS document into a structure that is suitable for implementation in some programming language.</p>
+<p>Design focuses on the <strong>module view</strong>.</p>
+</section>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 1 – Secure Authentication & Core Entities</h4>
-          <span>Backend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Build a secure authentication system and create core database entities.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>🔐 Authentication</h5>
-              <ul>
-                <li>User registration & login</li>
-                <li>JWT authentication</li>
-                <li>Role-based access</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>👤 User Management</h5>
-              <ul>
-                <li>User entity</li>
-                <li>Hashed passwords</li>
-                <li>User profile API</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🧩 Core Entities</h5>
-              <ul>
-                <li>Product entity</li>
-                <li>Category entity</li>
-                <li>Relations mapping</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🛡️ Security & Testing</h5>
-              <ul>
-                <li>Input validation</li>
-                <li>Error handling</li>
-                <li>Auth flow tests</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="design">
+<span class="badge">Levels</span>
+<h2>Design Levels</h2>
+<p>Software design process often has two levels:</p>
+<ul>
+<li>High-level design</li>
+<li>Detailed design</li>
+</ul>
+<p>High-level design identifies modules, control relationships, and interfaces; output is <strong>Software Architecture</strong>.</p>
+<p>Detailed design focuses on data structures and algorithms; output is <strong>Module Specification Document</strong>.</p>
+</section>
 
-      <!-- Add more backend sprints here -->
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 2 – Inventory & Stock</h4>
-          <span>Backend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Manage product stock quantities and automate stock updates.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>📦 Inventory & Stock</h5>
-              <ul>
-                <li>Create & update product stock</li>
-                <li>Decrease stock after orders</li>
-                <li>Low-stock alerts</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🛒 Cart System</h5>
-              <ul>
-                <li>Add/remove products to cart</li>
-                <li>Update quantities & totals</li>
-                <li>Persist cart per user</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="methods">
+<span class="badge">Methods</span>
+<h2>Software Design Methods</h2>
+<ul>
+<li>Structured Design Approach</li>
+<li>Object-Oriented Design Approach</li>
+</ul>
+</section>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 3 – Orders & Payments</h4>
-          <span>Backend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Enable order creation and handle payment logic.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>📑 Order Management</h5>
-              <ul>
-                <li>Create orders from cart</li>
-                <li>Manage order statuses</li>
-                <li>Link orders to users/products</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>💳 Payment Handling</h5>
-              <ul>
-                <li>Calculate totals & discounts</li>
-                <li>Handle payment success/failure</li>
-                <li>Update order status</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="principles">
+<span class="badge">Principles</span>
+<h2>Design Objectives & Principles</h2>
+<p>The goal is to find the best possible design within requirements and constraints.</p>
+<h3>Problem Partitioning</h3>
+<p>Divide system into Input, Processing, Output.</p>
+<h3>Abstraction</h3>
+<p>Describe component behavior without internal details.</p>
+<h3>Top-Down & Bottom-Up</h3>
+<p>Top-down: system → components; Bottom-up: components → system.</p>
+</section>
 
-    </section>
+<section id="architecture">
+<span class="badge">Architecture</span>
+<h2>Architectural Design</h2>
+<p>Large systems decomposed into subsystems. Key metrics:</p>
+<ul>
+<li>Depth – levels of components</li>
+<li>Width – components per level</li>
+<li>Fan-in – incoming edges</li>
+<li>Fan-out – outgoing edges</li>
+</ul>
+</section>
 
-    <!-- FRONTEND -->
-    <section class="section" id="frontend" style="display:none;">
-      <h2>🎨 Frontend Board</h2>
+<section id="modular">
+<span class="badge">Modularity</span>
+<h2>Modular Systems</h2>
+<p>Discrete components allow independent implementation and easier maintenance, testing, and reuse.</p>
+</section>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 1 – Project Setup & Auth UI</h4>
-          <span>Frontend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Setup project structure & authentication UI.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>🧱 Project Setup</h5>
-              <ul>
-                <li>Folder structure & routing</li>
-                <li>Global styles & environment</li>
-                <li>API base service</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🔐 Authentication Pages</h5>
-              <ul>
-                <li>Login page UI</li>
-                <li>Register page UI</li>
-                <li>Form validation & error messages</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="coupling">
+<span class="badge">Coupling & Cohesion</span>
+<h2>Coupling and Cohesion</h2>
+<p>Coupling – interdependence between modules</p>
+<p>Cohesion – closeness of relationships inside a module</p>
+<div class="diagram">
+<svg width="600" height="120">
+<text x="50" y="20">High Coupling ❌</text>
+<line x1="50" y1="40" x2="250" y2="40" stroke="red" stroke-width="3"/>
+<text x="350" y="20">High Cohesion ✅</text>
+<rect x="350" y="40" width="150" height="60" fill="#86efac"/>
+</svg>
+</div>
+</section>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 2 – Product Browsing & Categories</h4>
-          <span>Frontend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Allow users to browse products and categories smoothly.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>📦 Product Listing Page</h5>
-              <ul>
-                <li>Product card component</li>
-                <li>Grid layout & pagination</li>
-                <li>Loading skeleton & empty state</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🔍 Product Details Page</h5>
-              <ul>
-                <li>Image gallery & description</li>
-                <li>Stock availability</li>
-                <li>Add to cart button</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🗂️ Category Navigation</h5>
-              <ul>
-                <li>Categories menu</li>
-                <li>Filter by category</li>
-                <li>Active state UI</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="detailed">
+<span class="badge">Detailed Design</span>
+<h2>Module Specification</h2>
+<p>Structure charts are inadequate alone. Pseudo-code describes algorithms clearly using English-like structured statements.</p>
+</section>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 3 – Cart & Checkout</h4>
-          <span>Frontend</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Enable users to manage cart and place orders.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>🛒 Cart Page</h5>
-              <ul>
-                <li>Cart items list</li>
-                <li>Update quantity</li>
-                <li>Remove item</li>
-                <li>Subtotal calculation</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>💳 Checkout Page</h5>
-              <ul>
-                <li>Address form</li>
-                <li>Order summary</li>
-                <li>Submit order button</li>
-                <li>Validation messages</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🎟️ Coupon UI</h5>
-              <ul>
-                <li>Coupon input field</li>
-                <li>Apply coupon button</li>
-                <li>Discount feedback</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<section id="pseudo">
+<span class="badge">Pseudo-Code</span>
+<h2>Pseudo-Code</h2>
+<p>English-like statements: IF, WHILE, END, structured for clarity. Independent of programming language.</p>
+</section>
 
-    <!-- DEVOPS -->
-    <section class="section" id="devops" style="display:none;">
-      <h2>⚙️ DevOps Board</h2>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 1 – Infrastructure & Environment Setup</h4>
-          <span>DevOps</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Prepare base infrastructure and environments for development/testing.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>🏗️ Cloud Infrastructure</h5>
-              <ul>
-                <li>Choose cloud provider</li>
-                <li>Create project/account</li>
-                <li>Networking & security groups</li>
-                <li>Storage setup</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🌱 Environment Configuration</h5>
-              <ul>
-                <li>Development environment</li>
-                <li>Staging environment</li>
-                <li>Production environment</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🔐 Secrets Management</h5>
-              <ul>
-                <li>Environment variables strategy</li>
-                <li>Secrets storage solution</li>
-                <li>Access control policies</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 2 – CI/CD Pipeline</h4>
-          <span>DevOps</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Automate build, test & deployment processes.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>🧪 Continuous Integration</h5>
-              <ul>
-                <li>Pipeline config file</li>
-                <li>Install dependencies</li>
-                <li>Run unit tests</li>
-                <li>Lint & code quality</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🚀 Continuous Deployment</h5>
-              <ul>
-                <li>Build artifacts</li>
-                <li>Deploy to staging/production</li>
-                <li>Rollback strategy</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🐳 Containerization</h5>
-              <ul>
-                <li>Dockerfile creation</li>
-                <li>Image optimization & versioning</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="sprint">
-        <div class="sprint-header">
-          <h4>🚀 Sprint 3 – Deployment & Scaling</h4>
-          <span>DevOps</span>
-        </div>
-        <div class="sprint-content">
-          <div class="goal">🎯 <b>Sprint Goal:</b> Deploy app reliably and enable scaling.</div>
-          <div class="tasks">
-            <div class="task">
-              <h5>☸️ Container Orchestration</h5>
-              <ul>
-                <li>Kubernetes cluster setup</li>
-                <li>Deployment manifests</li>
-                <li>Service & ingress setup</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>📈 Auto Scaling</h5>
-              <ul>
-                <li>Horizontal scaling</li>
-                <li>Resource limits</li>
-                <li>Load balancing</li>
-              </ul>
-            </div>
-            <div class="task">
-              <h5>🧱 Infrastructure as Code (IaC)</h5>
-              <ul>
-                <li>IaC tool selection</li>
-                <li>Infrastructure definitions</li>
-                <li>State management</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-
-  <footer>© 2025 E-Commerce Scrum Boards — Designed for Developers</footer>
-
-  <script>
-    function showBoard(boardId) {
-      document.getElementById('backend').style.display = 'none';
-      document.getElementById('frontend').style.display = 'none';
-      document.getElementById('devops').style.display = 'none';
-      document.getElementById(boardId).style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Optional: Expand/collapse sprints
-    const headers = document.querySelectorAll('.sprint-header');
-    headers.forEach(header => {
-      header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        content.style.display = content.style.display === 'none' ? 'block' : 'none';
-      });
-      header.nextElementSibling.style.display = 'block'; // initially open
-    });
-  </script>
-
+<script>
+/* progress */
+window.addEventListener("scroll",()=>{
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  progress.style.width=(s/h)*100+"%";
+});
+/* reveal */
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>x.isIntersecting && x.target.classList.add("show"));
+},{threshold:.15});
+document.querySelectorAll("section").forEach(s=>obs.observe(s));
+/* dark mode */
+const btn=document.getElementById("modeBtn");
+if(localStorage.mode==="dark"){document.body.classList.add("dark"); btn.textContent="☀";}
+btn.onclick=()=>{
+  document.body.classList.toggle("dark");
+  const dark=document.body.classList.contains("dark");
+  btn.textContent=dark?"☀":"🌙";
+  localStorage.mode=dark?"dark":"light";
+};
+</script>
 </body>
 </html>
