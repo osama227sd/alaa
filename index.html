@@ -2,8 +2,7 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>CH3 - Part 1 | Shared Memory</title>
-
+    <title>CH3 – Shared Memory & Snooping</title>
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Arial;
@@ -47,7 +46,45 @@
         }
 
         .section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+        }
+
+        .note {
+            background-color: #eef6ff;
+            padding: 15px;
+            border-right: 4px solid #1e90ff;
+            margin-top: 10px;
+        }
+
+        .event-box {
+            background-color: #f0f8ff;
+            border-right: 4px solid #1e90ff;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
         }
 
         button {
@@ -69,139 +106,251 @@
             display: block;
         }
 
-        .note {
-            background-color: #eef6ff;
-            padding: 15px;
-            border-right: 4px solid #1e90ff;
-            margin-top: 10px;
-        }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-    <h1>CH3 – Part 1</h1>
-    <h2>Shared Memory Architecture</h2>
+    <h1>CH3 – Shared Memory & Snooping Protocols</h1>
 
     <button onclick="toggleContent()">إظهار / إخفاء الشرح</button>
 
     <div id="content" class="content">
 
-        <!-- مقدمة -->
+        <!-- Shared Memory Architecture -->
         <div class="section">
-            <h3>ما هي Shared Memory Architecture؟</h3>
-            <p>
-                هي معمارية حاسوب تحتوي على أكثر من Processor،  
-                وجميع الـ Processors يشتركون في نفس مساحة الذاكرة (Shared Memory).
-                أي Processor يستطيع الوصول إلى أي بيانات موجودة في الذاكرة.
-            </p>
-        </div>
+            <h2>Shared Memory Architecture</h2>
+            <div class="section">
+                <h3>ما هي Shared Memory Architecture؟</h3>
+                <p>
+                    هي معمارية حاسوب تحتوي على أكثر من Processor،  
+                    وجميع الـ Processors يشتركون في نفس مساحة الذاكرة (Shared Memory).
+                    أي Processor يستطيع الوصول إلى أي بيانات موجودة في الذاكرة.
+                </p>
+            </div>
 
-        <!-- Classification -->
-        <div class="section">
-            <h3>تصنيف أنظمة Shared Memory</h3>
-            <p>تنقسم أنظمة Shared Memory إلى ثلاثة أنواع رئيسية:</p>
-            <ul>
-                <li>Uniform Memory Access (UMA)</li>
-                <li>Non-Uniform Memory Access (NUMA)</li>
-                <li>Cache Only Memory Architecture (COMA)</li>
-            </ul>
-        </div>
+            <div class="section">
+                <h3>تصنيف أنظمة Shared Memory</h3>
+                <p>تنقسم أنظمة Shared Memory إلى ثلاثة أنواع رئيسية:</p>
+                <ul>
+                    <li>Uniform Memory Access (UMA)</li>
+                    <li>Non-Uniform Memory Access (NUMA)</li>
+                    <li>Cache Only Memory Architecture (COMA)</li>
+                </ul>
+            </div>
 
-        <!-- UMA -->
-        <div class="section">
-            <h3>1️⃣ Uniform Memory Access (UMA)</h3>
-            <p>
-                في هذا النوع يكون زمن الوصول إلى أي مكان في الذاكرة
-                متساويًا لجميع الـ Processors.
-            </p>
-            <p>
-                لا يوجد Processor مميز عن الآخر، لذلك تسمى هذه الأنظمة:
-                <strong>Symmetric Multiprocessors (SMP)</strong>.
-            </p>
-            <div class="note">
-                ➤ كل المعالجات تصل للذاكرة بنفس السرعة.
+            <div class="section">
+                <h3>1️⃣ UMA</h3>
+                <p>زمن الوصول لأي مكان في الذاكرة متساوي لجميع الـ Processors.</p>
+                <p>يسمى هذا النوع <strong>Symmetric Multiprocessors (SMP)</strong></p>
+                <div class="note">➤ كل المعالجات تصل للذاكرة بنفس السرعة.</div>
+            </div>
+
+            <div class="section">
+                <h3>2️⃣ NUMA</h3>
+                <p>
+                    كل Processor له جزء من الذاكرة الخاصة به (Local Memory)، وزمن الوصول يعتمد على المسافة.
+                </p>
+                <div class="note">➤ Local Memory أسرع من Remote Memory.</div>
+            </div>
+
+            <div class="section">
+                <h3>3️⃣ COMA</h3>
+                <p>
+                    النظام يتكون بالكامل من Caches، والبيانات تتحرك إلى الـ Processor الذي يطلبها.
+                </p>
             </div>
         </div>
 
-        <!-- NUMA -->
-        <div class="section">
-            <h3>2️⃣ Non-Uniform Memory Access (NUMA)</h3>
-            <p>
-                كل Processor يكون متصل بجزء من الذاكرة الخاصة به (Local Memory).
-                زمن الوصول للذاكرة يعتمد على المسافة بين الـ Processor
-                والذاكرة المطلوبة.
-            </p>
-            <div class="note">
-                ➤ Local Memory أسرع من Remote Memory.
-            </div>
-        </div>
-
-        <!-- COMA -->
-        <div class="section">
-            <h3>3️⃣ Cache Only Memory Architecture (COMA)</h3>
-            <p>
-                في هذا النظام لا توجد ذاكرة رئيسية تقليدية،
-                بل يتكون النظام بالكامل من Caches.
-            </p>
-            <p>
-                البيانات تتحرك (migrate) إلى الـ Processor الذي يطلبها.
-            </p>
-        </div>
-
-        <!-- Bus Based SMP -->
+        <!-- Bus-Based SMP -->
         <div class="section">
             <h2>Bus-Based Symmetric Multiprocessors</h2>
             <p>
-                يعتبر أبسط شكل من أشكال ربط المعالجات،
-                حيث تتصل جميع الـ Processors بالذاكرة
-                عن طريق Bus واحد مشترك.
+                أبسط شكل لربط المعالجات، حيث تتصل جميع الـ Processors بالذاكرة عن طريق Bus واحد مشترك.
             </p>
-            <p>
-                المشكلة الأساسية في هذا التصميم هي تشبع الـ Bus
-                عند محاولة أكثر من Processor الوصول للذاكرة في نفس الوقت.
-            </p>
-            <div class="note">
-                ➤ استخدام Cache يقلل الضغط على الـ Bus.
-            </div>
+            <div class="note">➤ استخدام Cache يقلل الضغط على الـ Bus.</div>
         </div>
 
         <!-- Cache Coherence -->
         <div class="section">
             <h2>Basic Cache Coherency</h2>
             <p>
-                تكون الـ Caches متوافقة (Coherent)
-                عندما تكون جميع النسخ من نفس البيانات
-                في كل الكاشات لها نفس القيمة.
+                تكون الـ Caches متوافقة (Coherent) عندما تكون جميع النسخ من نفس البيانات في كل الكاشات لها نفس القيمة.
             </p>
         </div>
 
-        <!-- Write Through -->
         <div class="section">
             <h3>Write-Through Policy</h3>
             <p>
-                عند أي تعديل في الكاش،
-                يتم تحديث الذاكرة الرئيسية فورًا.
+                أي تعديل في الكاش يحدث فورًا في الذاكرة الرئيسية.
             </p>
-            <div class="note">
-                ➤ بسيط لكنه يسبب ضغط كبير على الـ Bus.
+            <div class="note">➤ بسيط لكنه يسبب ضغط كبير على الـ Bus.</div>
+        </div>
+
+        <div class="section">
+            <h3>Write-Back Policy</h3>
+            <p>
+                التعديل يتم في الكاش فقط، ويتم تحديث الذاكرة فقط عند استبدال البلوك.
+            </p>
+            <div class="note">➤ يعتمد على Dirty Bit لمعرفة البلوك المعدّل.</div>
+        </div>
+
+        <!-- Cache-Cache Coherence Intro -->
+        <div class="section">
+            <h2>Cache-Cache Coherence</h2>
+            <p>
+                في نظام Multiprocessing، عندما يطلب Processor <strong>P</strong> بيانات من موقع X في الذاكرة:
+            </p>
+            <p>نسخة من X تُنسخ للكاش المحلي للـ P.</p>
+            <p>لو Processor <strong>Q</strong> كتب على X:</p>
+            <ul>
+                <li>Q يقوم بإلغاء كل النسخ الأخرى.</li>
+                <li>تفعيل Dirty Bit للبلوك X.</li>
+                <li>Q يواصل التعديل لأنه النسخة الوحيدة الصالحة.</li>
+                <li>لو P يريد القراءة لاحقًا، يجب الانتظار حتى يتم تحديث X ومسح Dirty Bit.</li>
+                <li>في سياسة Write-Update، يتم تحديث جميع النسخ فورًا ومسح الـ Dirty Bits بعد التحديث.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>سياسات Cache-Cache</h3>
+            <ul>
+                <li><strong>Write-Invalidate:</strong> قراءة من الكاش المحلي حتى يحدث Write.</li>
+                <li><strong>Write-Update:</strong> تحديث جميع النسخ في جميع الكاشات فورًا.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Shared Memory System Coherence</h3>
+            <p>أربع توليفات للحفاظ على التوافق بين الكاشات والذاكرة الرئيسية:</p>
+            <ul>
+                <li>Write-Update & Write-Through</li>
+                <li>Write-Update & Write-Back</li>
+                <li>Write-Invalidate & Write-Through</li>
+                <li>Write-Invalidate & Write-Back</li>
+            </ul>
+        </div>
+
+        <!-- Snooping Protocols -->
+        <div class="section">
+            <h2>Snooping Protocols</h2>
+            <p>
+                كل Cache تراقب الـ <strong>Bus</strong> لمتابعة أي نشاط واتباع أوامر التوافق.
+                الذاكرة تتحرك على شكل Blocks، وحالة كل بلوك تحدد ما يحدث بعد Read/Write.
+            </p>
+        </div>
+
+        <!-- Update Event -->
+        <div class="section">
+            <h2>Cache Update Event</h2>
+            <div class="event-box">
+                <p>لما واحد يكتب (Update) ❗</p>
+                <ul>
+                    <li>1️⃣ كل النسخ التانية في باقي الكاشات تُلغى (Invalidate)</li>
+                    <li>2️⃣ الذاكرة الرئيسية تُحدث (لتظل متسقة)</li>
+                </ul>
+                <p>📌 هذا هو مبدأ Cache Coherence في Snooping Protocols</p>
             </div>
         </div>
 
-        <!-- Write Back -->
+        <!-- Block States -->
         <div class="section">
-            <h3>Write-Back Policy (شرح مهم)</h3>
-            <p>
-                في هذه السياسة يتم التعديل داخل الكاش فقط،
-                ولا يتم تحديث الذاكرة الرئيسية مباشرة.
-            </p>
-            <p>
-                يتم تحديث الذاكرة فقط عند خروج (استبدال)
-                البلوك من الكاش.
-            </p>
-            <div class="note">
-                ➤ يعتمد على Dirty Bit لمعرفة البلوك المعدّل.
+            <h2>حالات البلوك (State Description)</h2>
+            <table>
+                <tr>
+                    <th>الحالة</th>
+                    <th>الاختصار</th>
+                    <th>الوصف</th>
+                </tr>
+                <tr>
+                    <td>Valid</td>
+                    <td>[VALID]</td>
+                    <td>النسخة متوافقة مع الذاكرة الرئيسية</td>
+                </tr>
+                <tr>
+                    <td>Invalid</td>
+                    <td>[INV]</td>
+                    <td>النسخة غير متوافقة</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Snooping Events -->
+        <div class="section">
+            <h2>حالات الأحداث – Snooping Protocol</h2>
+            <div class="event-box">
+                <h3>1️⃣ Read Hit</h3>
+                <p><strong>الحالة:</strong> النسخة موجودة في الكاش لكنها Invalid</p>
+                <p><strong>الإجراء:</strong> استخدم النسخة المحلية من الكاش</p>
+                <p><strong>النتيجة:</strong> القراءة تمت بسرعة بدون الرجوع للذاكرة</p>
+            </div>
+            <div class="event-box">
+                <h3>2️⃣ Read Miss</h3>
+                <p><strong>الحالة:</strong> البلوك مش موجود أو Invalid</p>
+                <p><strong>الإجراء:</strong> جلب نسخة من Global Memory وضبط الحالة على Valid</p>
+                <p><strong>النتيجة:</strong> النسخة الآن صالحة للقراءة المحلية</p>
+            </div>
+            <div class="event-box">
+                <h3>3️⃣ Write Hit</h3>
+                <p><strong>الحالة:</strong> البلوك موجود في الكاش (Hit)</p>
+                <p><strong>الإجراء:</strong> الكتابة في الكاش المحلي، إرسال Invalidate لكل النسخ الأخرى، تحديث الذاكرة الرئيسية</p>
+                <p><strong>النتيجة:</strong> النسخة المحلية صحيحة، باقي النسخ غير صالحة، الذاكرة الرئيسية محدثة</p>
+            </div>
+            <div class="event-box">
+                <h3>4️⃣ Write Miss</h3>
+                <p><strong>الحالة:</strong> البلوك غير موجود أو Invalid</p>
+                <p><strong>الإجراء:</strong> جلب نسخة من Global Memory، إرسال Invalidate لكل النسخ الأخرى، تحديث الذاكرة الرئيسية، تحديث النسخة المحلية وضبطها Valid</p>
+                <p><strong>النتيجة:</strong> البلوك موجود في الكاش وصالح للكتابة</p>
+            </div>
+            <div class="event-box">
+                <h3>5️⃣ Block Replace</h3>
+                <p><strong>الحالة:</strong> البلوك سيتم استبداله لأنه في الكاش مساحة محدودة</p>
+                <p><strong>الإجراء:</strong> لا حاجة لكتابة البلوك مرة أخرى في الذاكرة</p>
+                <p><strong>النتيجة:</strong> إزالة البلوك من الكاش بأمان</p>
+            </div>
+        </div>
+
+        <!-- Write-Invalidate & Write-Back -->
+        <div class="section">
+            <h2>Write-Invalidate & Write-Back (Ownership Protocol)</h2>
+            <div class="event-box">
+                <h3>1️⃣ حالات البلوك</h3>
+                <table>
+                    <tr>
+                        <th>الحالة</th>
+                        <th>الاختصار</th>
+                        <th>الوصف</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                    <tr>
+                        <td>Shared (Read-Only)</td>
+                        <td>[RO]</td>
+                        <td>البيانات صالحة ويمكن قراءتها بأمان</td>
+                        <td>يمكن أكثر من نسخة بنفس الحالة في كاشات مختلفة</td>
+                    </tr>
+                    <tr>
+                        <td>Exclusive (Read-Write)</td>
+                        <td>[RW]</td>
+                        <td>نسخة واحدة صالحة فقط، يمكن القراءة والكتابة بأمان</td>
+                        <td>أي نسخة في كاش آخر Invalid</td>
+                    </tr>
+                    <tr>
+                        <td>Invalid</td>
+                        <td>[INV]</td>
+                        <td>النسخة غير متوافقة</td>
+                        <td>لا تستخدم</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="event-box">
+                <h3>2️⃣ أحداث البروتوكول</h3>
+                <ul>
+                    <li>🔹 <strong>Read Hit:</strong> استخدم النسخة المحلية من الكاش، الحالة لا تتغير</li>
+                    <li>🔹 <strong>Read Miss:</strong> لو مافيش نسخة Exclusive → جلب من Global Memory وضبط Shared<br>
+                        لو في نسخة Exclusive موجودة → جلب نسخة من الكاش، تحديث الذاكرة والنسخ المحلية، ضبط Shared في كل الكاشات</li>
+                    <li>🔹 <strong>Write Hit:</strong> لو النسخة Exclusive → كتابة محلية، لو Shared → إرسال Invalidate + ضبط Exclusive</li>
+                    <li>🔹 <strong>Write Miss:</strong> جلب نسخة من أي كاش عنده Exclusive أو من Global Memory، إرسال Invalidate، تحديث النسخة المحلية لضبط Exclusive</li>
+                    <li>🔹 <strong>Block Replacement:</strong> لو النسخة Exclusive → كتابة في Main Memory، لو Shared / Invalid → لا حاجة للكتابة</li>
+                </ul>
             </div>
         </div>
 
@@ -214,6 +363,5 @@
         content.style.display = (content.style.display === "none") ? "block" : "none";
     }
 </script>
-
 </body>
 </html>
