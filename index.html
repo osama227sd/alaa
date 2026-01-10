@@ -1,225 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<title>Chapter 4 – Software Design</title>
-<style>
-:root{
-  --bg:#f8fafc;
-  --card:#ffffff;
-  --text:#1e293b;
-  --main:#2563eb;
-  --accent:#22c55e;
-}
-body.dark{
-  --bg:#0f172a;
-  --card:#1e293b;
-  --text:#e5e7eb;
-}
-*{box-sizing:border-box;scroll-behavior:smooth;}
-body{
-  margin:0;
-  font-family:'Segoe UI',Tahoma,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition:.3s;
-}
-#progress{
-  position:fixed; top:0; left:0;
-  height:5px; width:0%;
-  background:linear-gradient(to right,var(--main),var(--accent));
-  z-index:1000;
-}
-.toggle{
-  position:fixed; right:20px; top:15px;
-  z-index:1100;
-  background:var(--card);
-  border:none;
-  padding:10px 14px;
-  border-radius:25px;
-  cursor:pointer;
-  box-shadow:0 5px 15px rgba(0,0,0,.2);
-  font-size:18px;
-}
-header{
-  background:linear-gradient(135deg,#1e40af,#2563eb);
-  color:white;
-  padding:60px 20px;
-  text-align:center;
-}
-header h1{margin-bottom:5px;}
-header p{margin:4px 0;}
-nav{
-  background:var(--card);
-  display:flex; flex-wrap:wrap; justify-content:center;
-  gap:12px; padding:12px;
-  position:sticky; top:0; z-index:999;
-}
-nav a{
-  text-decoration:none; color:var(--text); font-weight:600;
-}
-section{
-  max-width:1050px; margin:40px auto;
-  background:var(--card); padding:30px;
-  border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.15);
-  opacity:0; transform:translateY(40px); transition:.8s;
-}
-section.show{opacity:1; transform:none;}
-h2{color:var(--main);}
-.badge{
-  background:var(--accent); color:white;
-  padding:6px 14px; border-radius:20px;
-  font-size:14px; display:inline-block;
-  margin-bottom:15px;
-}
-.card{
-  background:#f1f5f9; padding:20px;
-  border-left:6px solid var(--main); border-radius:10px;
-  margin:20px 0;
-}
-.diagram{
-  background:rgba(0,0,0,.05); padding:20px;
-  border-radius:14px; margin-top:25px; overflow:auto;
-}
-svg text{fill:var(--text); font-size:14px; font-weight:600;}
-footer{
-  background:#020617; color:white;
-  text-align:center; padding:30px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>CH3 - Part 1 | Shared Memory</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Arial;
+            background-color: #f2f4f7;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 85%;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #1e90ff;
+        }
+
+        p, li {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-right: 20px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #0f6fd6;
+        }
+
+        .content {
+            display: block;
+        }
+
+        .note {
+            background-color: #eef6ff;
+            padding: 15px;
+            border-right: 4px solid #1e90ff;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body>
 
-<div id="progress"></div>
-<button class="toggle" id="modeBtn">🌙</button>
+<div class="container">
+    <h1>CH3 – Part 1</h1>
+    <h2>Shared Memory Architecture</h2>
 
-<header>
-<h1>Chapter 4 – Software Design</h1>
-<p>Software Engineering</p>
-<p><strong>Prepared by:</strong> Osama Ebrahim Ahmed Salam</p>
-</header>
+    <button onclick="toggleContent()">إظهار / إخفاء الشرح</button>
 
-<nav>
-<a href="#intro">Introduction</a>
-<a href="#design">Design</a>
-<a href="#methods">Methods</a>
-<a href="#principles">Principles</a>
-<a href="#architecture">Architecture</a>
-<a href="#modular">Modularity</a>
-<a href="#coupling">Coupling</a>
-<a href="#detailed">Detailed Design</a>
-<a href="#pseudo">Pseudo-Code</a>
-</nav>
+    <div id="content" class="content">
 
-<section id="intro">
-<span class="badge">Introduction</span>
-<h2>Software Design</h2>
-<p>The goal of the design phase is to transform the requirements specified in the SRS document into a structure that is suitable for implementation in some programming language.</p>
-<p>Design focuses on the <strong>module view</strong>.</p>
-</section>
+        <!-- مقدمة -->
+        <div class="section">
+            <h3>ما هي Shared Memory Architecture؟</h3>
+            <p>
+                هي معمارية حاسوب تحتوي على أكثر من Processor،  
+                وجميع الـ Processors يشتركون في نفس مساحة الذاكرة (Shared Memory).
+                أي Processor يستطيع الوصول إلى أي بيانات موجودة في الذاكرة.
+            </p>
+        </div>
 
-<section id="design">
-<span class="badge">Levels</span>
-<h2>Design Levels</h2>
-<p>Software design process often has two levels:</p>
-<ul>
-<li>High-level design</li>
-<li>Detailed design</li>
-</ul>
-<p>High-level design identifies modules, control relationships, and interfaces; output is <strong>Software Architecture</strong>.</p>
-<p>Detailed design focuses on data structures and algorithms; output is <strong>Module Specification Document</strong>.</p>
-</section>
+        <!-- Classification -->
+        <div class="section">
+            <h3>تصنيف أنظمة Shared Memory</h3>
+            <p>تنقسم أنظمة Shared Memory إلى ثلاثة أنواع رئيسية:</p>
+            <ul>
+                <li>Uniform Memory Access (UMA)</li>
+                <li>Non-Uniform Memory Access (NUMA)</li>
+                <li>Cache Only Memory Architecture (COMA)</li>
+            </ul>
+        </div>
 
-<section id="methods">
-<span class="badge">Methods</span>
-<h2>Software Design Methods</h2>
-<ul>
-<li>Structured Design Approach</li>
-<li>Object-Oriented Design Approach</li>
-</ul>
-</section>
+        <!-- UMA -->
+        <div class="section">
+            <h3>1️⃣ Uniform Memory Access (UMA)</h3>
+            <p>
+                في هذا النوع يكون زمن الوصول إلى أي مكان في الذاكرة
+                متساويًا لجميع الـ Processors.
+            </p>
+            <p>
+                لا يوجد Processor مميز عن الآخر، لذلك تسمى هذه الأنظمة:
+                <strong>Symmetric Multiprocessors (SMP)</strong>.
+            </p>
+            <div class="note">
+                ➤ كل المعالجات تصل للذاكرة بنفس السرعة.
+            </div>
+        </div>
 
-<section id="principles">
-<span class="badge">Principles</span>
-<h2>Design Objectives & Principles</h2>
-<p>The goal is to find the best possible design within requirements and constraints.</p>
-<h3>Problem Partitioning</h3>
-<p>Divide system into Input, Processing, Output.</p>
-<h3>Abstraction</h3>
-<p>Describe component behavior without internal details.</p>
-<h3>Top-Down & Bottom-Up</h3>
-<p>Top-down: system → components; Bottom-up: components → system.</p>
-</section>
+        <!-- NUMA -->
+        <div class="section">
+            <h3>2️⃣ Non-Uniform Memory Access (NUMA)</h3>
+            <p>
+                كل Processor يكون متصل بجزء من الذاكرة الخاصة به (Local Memory).
+                زمن الوصول للذاكرة يعتمد على المسافة بين الـ Processor
+                والذاكرة المطلوبة.
+            </p>
+            <div class="note">
+                ➤ Local Memory أسرع من Remote Memory.
+            </div>
+        </div>
 
-<section id="architecture">
-<span class="badge">Architecture</span>
-<h2>Architectural Design</h2>
-<p>Large systems decomposed into subsystems. Key metrics:</p>
-<ul>
-<li>Depth – levels of components</li>
-<li>Width – components per level</li>
-<li>Fan-in – incoming edges</li>
-<li>Fan-out – outgoing edges</li>
-</ul>
-</section>
+        <!-- COMA -->
+        <div class="section">
+            <h3>3️⃣ Cache Only Memory Architecture (COMA)</h3>
+            <p>
+                في هذا النظام لا توجد ذاكرة رئيسية تقليدية،
+                بل يتكون النظام بالكامل من Caches.
+            </p>
+            <p>
+                البيانات تتحرك (migrate) إلى الـ Processor الذي يطلبها.
+            </p>
+        </div>
 
-<section id="modular">
-<span class="badge">Modularity</span>
-<h2>Modular Systems</h2>
-<p>Discrete components allow independent implementation and easier maintenance, testing, and reuse.</p>
-</section>
+        <!-- Bus Based SMP -->
+        <div class="section">
+            <h2>Bus-Based Symmetric Multiprocessors</h2>
+            <p>
+                يعتبر أبسط شكل من أشكال ربط المعالجات،
+                حيث تتصل جميع الـ Processors بالذاكرة
+                عن طريق Bus واحد مشترك.
+            </p>
+            <p>
+                المشكلة الأساسية في هذا التصميم هي تشبع الـ Bus
+                عند محاولة أكثر من Processor الوصول للذاكرة في نفس الوقت.
+            </p>
+            <div class="note">
+                ➤ استخدام Cache يقلل الضغط على الـ Bus.
+            </div>
+        </div>
 
-<section id="coupling">
-<span class="badge">Coupling & Cohesion</span>
-<h2>Coupling and Cohesion</h2>
-<p>Coupling – interdependence between modules</p>
-<p>Cohesion – closeness of relationships inside a module</p>
-<div class="diagram">
-<svg width="600" height="120">
-<text x="50" y="20">High Coupling ❌</text>
-<line x1="50" y1="40" x2="250" y2="40" stroke="red" stroke-width="3"/>
-<text x="350" y="20">High Cohesion ✅</text>
-<rect x="350" y="40" width="150" height="60" fill="#86efac"/>
-</svg>
+        <!-- Cache Coherence -->
+        <div class="section">
+            <h2>Basic Cache Coherency</h2>
+            <p>
+                تكون الـ Caches متوافقة (Coherent)
+                عندما تكون جميع النسخ من نفس البيانات
+                في كل الكاشات لها نفس القيمة.
+            </p>
+        </div>
+
+        <!-- Write Through -->
+        <div class="section">
+            <h3>Write-Through Policy</h3>
+            <p>
+                عند أي تعديل في الكاش،
+                يتم تحديث الذاكرة الرئيسية فورًا.
+            </p>
+            <div class="note">
+                ➤ بسيط لكنه يسبب ضغط كبير على الـ Bus.
+            </div>
+        </div>
+
+        <!-- Write Back -->
+        <div class="section">
+            <h3>Write-Back Policy (شرح مهم)</h3>
+            <p>
+                في هذه السياسة يتم التعديل داخل الكاش فقط،
+                ولا يتم تحديث الذاكرة الرئيسية مباشرة.
+            </p>
+            <p>
+                يتم تحديث الذاكرة فقط عند خروج (استبدال)
+                البلوك من الكاش.
+            </p>
+            <div class="note">
+                ➤ يعتمد على Dirty Bit لمعرفة البلوك المعدّل.
+            </div>
+        </div>
+
+    </div>
 </div>
-</section>
-
-<section id="detailed">
-<span class="badge">Detailed Design</span>
-<h2>Module Specification</h2>
-<p>Structure charts are inadequate alone. Pseudo-code describes algorithms clearly using English-like structured statements.</p>
-</section>
-
-<section id="pseudo">
-<span class="badge">Pseudo-Code</span>
-<h2>Pseudo-Code</h2>
-<p>English-like statements: IF, WHILE, END, structured for clarity. Independent of programming language.</p>
-</section>
-
-
-
 
 <script>
-/* progress */
-window.addEventListener("scroll",()=>{
-  const s=document.documentElement.scrollTop;
-  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  progress.style.width=(s/h)*100+"%";
-});
-/* reveal */
-const obs=new IntersectionObserver(e=>{
-  e.forEach(x=>x.isIntersecting && x.target.classList.add("show"));
-},{threshold:.15});
-document.querySelectorAll("section").forEach(s=>obs.observe(s));
-/* dark mode */
-const btn=document.getElementById("modeBtn");
-if(localStorage.mode==="dark"){document.body.classList.add("dark"); btn.textContent="☀";}
-btn.onclick=()=>{
-  document.body.classList.toggle("dark");
-  const dark=document.body.classList.contains("dark");
-  btn.textContent=dark?"☀":"🌙";
-  localStorage.mode=dark?"dark":"light";
-};
+    function toggleContent() {
+        const content = document.getElementById("content");
+        content.style.display = (content.style.display === "none") ? "block" : "none";
+    }
 </script>
+
 </body>
 </html>
