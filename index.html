@@ -22,6 +22,7 @@
     h1 {
         text-align: center;
         color: #2c3e50;
+        font-size: 28px;
     }
 
     .part {
@@ -62,6 +63,16 @@
 
     h3 {
         color: #1e90ff;
+        margin-top: 15px;
+    }
+
+    p, li {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    ul {
+        margin-right: 20px;
     }
 
     .note {
@@ -84,6 +95,7 @@
         width: 100%;
         border-collapse: collapse;
         margin: 10px 0;
+        font-size: 14px;
     }
 
     table, th, td {
@@ -104,6 +116,54 @@
         background-color: #f9f9f9;
     }
 
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 24px;
+        }
+        .part-header {
+            font-size: 16px;
+            padding: 12px 15px;
+        }
+        h3 {
+            font-size: 16px;
+        }
+        p, li {
+            font-size: 14px;
+        }
+        table {
+            font-size: 12px;
+        }
+        th, td {
+            padding: 8px;
+        }
+        .container {
+            width: 95%;
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 20px;
+        }
+        .part-header {
+            font-size: 15px;
+            padding: 10px 12px;
+        }
+        h3 {
+            font-size: 14px;
+        }
+        p, li {
+            font-size: 13px;
+        }
+        table {
+            font-size: 11px;
+        }
+        th, td {
+            padding: 6px;
+        }
+    }
 </style>
 </head>
 <body>
